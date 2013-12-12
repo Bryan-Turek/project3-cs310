@@ -1,0 +1,437 @@
+#(if (have ('())) (say ""))
+#(if (and (and (and not(have('())) not(have('()))) not(have('()))) not(have('())) say "")
+#(if (or (or (or have('()) have('())) have('())) have('()) say "")
+
+#IMPORTANT NODES
+#Node5  - Bonfire 
+#Node7  - Firelink Shrine
+#Node15 - Graveyard
+#Node19 - Death
+#Node27 - Nito
+#Node37 - Four Kings
+#Node46 - Seath
+#Node53 - Witch
+
+#ITEMS - 
+#1- Gravelord
+#2- FourKings
+#3- Seath
+#4- Witch
+#5- RightChain
+#6- LeftChain
+#7- LordSoul
+
+#SUBROUTINES
+#1- NodeX -> Node5 -> NodeX
+#2- Firelink -> Warrior -> Warrior -> G or E or T or C -> Firelink
+
+#Node 1
+Node1 #name
+:add (define Gravelord ('(False))) (define FourKings ('(False))) (define Seath ('(False))) (define ('(False)))
+You're Dead #title (new field)
+You find yourself crawling back to consciencnous in a dark cell with only a misty ray of light beaming from a gap in the ceiling. You peer around, examining your environment: your armor has lost its shine to muck, the walls are smooth and damp from ages of erosion, and your skin has turned to a shriveled, brittle hide. The realization comes to you; you are hollow. #description
+> Node2 Attempt to stand up
+
+#Node 2
+Node2
+Standing
+It is hard to get to your feet, as if you have not moved for weeks. The door of the cell is rusted, but securely shut. All of the sudden, the lighting in the room changes and you notice a figure casting a shadow through the hole in the cieling. A lifeless body drops through the hole and the figure leaves soon after. Upon inspection, you find a key on the corpse; the key to the cell. You limp your way to the barred door.
+> Node3 Unlock the door
+
+#Node 3
+Node3
+Freedom..?
+The cell opens, emanating a harsh sound as the rusty iron grinds over the hinges. You walk through the hallway, following the sound of wind hoping to find your way to the outside world.
+> Node4 Traverse through the corridor.
+
+#Node 4
+Node4
+Outside of the Asylum
+With little effort, you arrive outside of the mysterious fortress, greeted by a crisp breaze. The building is situated on steep, narrow plateau with jagged drops on every side. Two things catch your attension in your dazed and confused state. To your right there is a small bonfire, and on the edge of the cliff is a massive bird's nest.
+:OnExit (define checkpoint ('(Node4))) #Demon1
+> Node5 Warm yourself by the bonfire.
+> Node6 Inspect the unusual bird's nest.
+
+#Node 5, Subroutine 1
+Node5
+Bonfire!
+You raise your hand to the fire, feeling a rejuvenating warmth flow through your body. For a moment, you feel a touch of life...
+> (previousNode) Continue your journey. #Demon 30
+
+#Node 6
+Node6
+The Raven
+You near the bird's nest, struck by its unusually large size; it must measure at least three claymores in length. Distracted by its size, you do not hear the swooping in the distance. Suddenly, you are clawed into the air by a massive raven. All you can do is curl into a ball and hope the bird does not drop you to your irrecoverable death.
+> Node7 The Firelink Shrine...
+
+#Node 7
+Node7
+Firelink Shrine
+:OnEntry (define checkpoint ('(Node7))) #Demon 22
+#Description contains Demons 2,3,4,5
+You arrive at the Firlink Shrine. (if (and '(1) '(2)) (say "The Gravelord's Soul chills you to the core, as if dragging you to an everlasting death.")) (if (have ('(FourKings))) (say " The bequthed kings' Soul has an omnipotent presence. It feels as if it is whispering promises of unlimited power in your ear.")) (if (have ('(Seath))) (say " Seath's crystalized soul feels noticeably heavy, as if weighed down by vast amounts of arcane knowledge and power.")) (if (have ('(Witch))) (say " The Witch's Soul burns fiercly. Perhaps her attempt at an everlasting fire was not in vain."))
+:OnExit (define checkpoint ('(Node7))) #Demon 17
+> Node5 Rest at the bonfire.
+> Node8 Talk to the strange warrior by the fire.
+> Node15 Explore the Graveyard :if (not(have('(Gravelord)))) #Demon 23
+> Node33 Explore the Elevator :if (not(have('(FourKings)))) #Demon 24
+> Node43 Explore the Temple :if (not(have('(Seath)))) #Demon 25
+> Node51 Explore the Cave :if (not(have('(Witch)))) #Demon 26
+> Node57 Examin the Wall :if (and (and (and have('(Gravelord)) have('(FourKings))) have('(Seath))) have('(Witch))) #Demon 43
+
+#Node 8
+Node8
+#This character acts as a guide through the game, telling the user where to go based on what items the hero is holding. There are 4 total items to collect across four different paths; therefore, the warrior has a different voice option for each stage of the game.
+The Crestfallen Warrior
+#Description contains Demons 6,7
+(if (and (and (and not(have('(Gravelord))) not(have('(FourKings)))) not(have('(Seath)))) not(have('(Witch))) (say "'Ahh, well well, what do we have here? Is it yet another brave hero that will stop this curse? I have seen many come and never return before you, chosen undead. You might as well sit here and become hollow with me. . .What? You have other plans? I suppose you are planning on saving the world! Fine. The curse can be lifted by venturing to the Kiln and lighting its flame. To find the Kiln, you must assemble the Lord Soul. And to do that, you need to slay the four Lords in possession of the shards. Simple enough...yet no one ever seems to return. Such a pity.'")) (if (or (or (or have('(Gravelord)) have('(FourKings))) have('(Seath))) have('(Witch)) (say "What's this? You..you've returned. It appears you have become a Lord slayer. Maybe there is hope afterall. What do you need? "))
+> Node9 Where do I search next?
+
+#Node 9
+Node9
+The Crestfallen Warrior
+#Description contains Demons 8,9,10,11,12
+#Edges have Demons 13,14,15,16
+(if (have ('(Gravelord)))(say " It appears you have braved the Graveyard and found the Lord that lurks beneath. I shutter at the tales of such a terrifying demigod. I simply don't possess the bravery.")) (if (have ('(FourKings)))(say " New Londo, what a sad story for such a wonderous city. I suppose the power the kings found was no more than a lie. How else could you be here? ")) (if (have ('(Seath)))(say " Was Anor Londo as beautiful as they say? Was is satisfying slaying the Duke of the king? At least you got to him when you did; I hear his key to immortality was as close as tomorrow.")) (if (have ('(Witch)))(say " Izalith; spawn of the Demons. You have done Witch kindly, putting her out of her mangled misery.")) (if (and (and (and not(have('(Gravelord))) not(have('(FourKings)))) not(have('(Seath)))) not(have('(Witch))) say " Well, adventurer, there are 4 paths: the Graveyard, the Elevator, the Temple, and the Cave.")
+> Node10 The Graveyard :if (not (have ('(Gravelord)))) You already have the Gravelord's Soul
+> Node11 The Elevator :if (not (have ('(FourKings)))) You already possess those Souls.
+> Node12 The Temple :if (not (have ('(Seath)))) You have already claimed Seath's Soul.
+> Node13 The Cave :if (not (have ('(Witch)))) You have already acquired the Witch's Soul.
+> Node14 The Wall 
+
+#Node 10
+Node10
+TheCrestfallen Warrior
+The Graveyard, a spookey old place. It leads to the Catacombs and finnaly to the Tomb of Giants. In this Tomb, you will Gravelord Nito, First of the Dead. He contains a shard of the Lord Soul that you seek. One word of advice, it gets rather...dark, you better be prepared.
+> Node7 Return to Firelink Shrine
+
+#Node 11
+Node11
+TheCrestfallen Warrior
+The Elevator? Why, that takes you to the sunken city of New Londo. The city is ruled by a council of four kings. Rather, it was under their rule when they desroyed it with their insatiable lust for power. Their council now resides in the Abyss, accessible by the deepest depths of New Londo. 
+> Node7 Return to the Firelink Shrine
+
+#Node 12
+Node12
+TheCrestfallen Warrior
+The of of the Temple will eventually lead you to the giant's city of Anor Londo. There, yuo must seek the Duke's Archives and kill the creature known as Seath the Scaeless. Be warned, though, you better hurry. Seath seeks immortality, and with the entire knowledge of man at his disposal, it can't be much time.
+> Node7 Return to the Firelink Shrine
+
+#Node 13
+Node13
+TheCrestfallen Warrior
+The Cave leads to the realm of demons and their birth place, the city of Izalith. In its center you encounter what find what used to be the Witch of Izalith. Unfortunately, in her task to revive the realm's flame, her fragment of the Lord's Soul become corrupt; it created a Bed of Chaos to which all demon's trace their origins. 
+> Node7 Return to the Firelink Shrine
+
+#Node 14
+Node14
+TheCrestfallen Warrior
+Behind that wall is the Kiln of the First Flame. Its fire is the key to restoring humanity to the realm. Its dwindling is the reason why people are going hollow left and right. You must retrieve all four fragments of the Lord Soul to open the door. Only then can you save the realm from this dreaded affliction.
+> Node7 Return to the Firelink Shrine
+
+#Node 15
+Node15
+The Graveyard
+You walk down the path leading to the Graveyard. As you arrive, you notice the vast amount of headstones with bones scattered in every direction. You continue your journey when a pile of bones in front of you swirls magically into a skeleton wielding a curved sword and a shield. The skeleton is enraged and swings wildly at you.
+> Node16 Counter the attack
+> Node17 Use your shield
+> Node18 Dodge the attack
+
+#Node 16
+Node16
+Counter!
+You raise your sword, countering the skeleton mid swing. The concussion from the collision allows you time to swiftly riposte, removing the skeleton's head.
+> Node20 Continue to the Catacombs
+
+#Node 17
+Node17
+Block!
+You lift your shield. In a fury, the skeleton pounds on the sheild. In its rage, you notice that the skeleton's legs are open. You take advantage of this and strike at the knee. The skeleton collapses into a pile of bones.
+> Node20 Continue to the Catacombs
+
+#Node 18
+Node18
+Dodge...
+You quickly move out of the skeleton's way; however, the skeleton is fast and qickly turns to you. Your side is exposed as the skeletons begins to hack away. The first strike brings you to your knees. By the third strike, you feel cold - you feel the little life you had slip away.
+> Node19 You have died.
+
+#Node 19
+Node19
+:OnEntry (if (have ('(Curse))) (define checkpoint ('(Node7)))) #Demon 31
+#Description contrains Demons 32,33,34
+Revived!
+. . .your soul is fading, flying through a black space when a familiar warmth is felt from the distance. Violently, you feel your soul take root in your body. (if (not (have ('(Curse))) (say "Your senses return and you find yourself at the last bonfire you rested at.")) (if (have ('(Curse))) (say " Your curse burdens you. You find yourself back at Firelink Shrine as opposed to the last bonfire you visited.")) 
+> (checkpoint) The journey continues...#Demon18 
+
+#Node 20
+Node20
+The Catacombs
+You pass through a series of tunnels and crypts and find yourself in a steep valley known only as the Catacombs. 
+:OnExit (define checkpoint ('(Node20)))#Demon19
+> Node5 Rest at the nearby bonfire.
+> Node21 Continue into the valley.
+
+#Node 21
+Node21
+Facing a Necromancer
+Across the valley, you see a Necromancer holding a flaming severed head, and he looks angry. The necromancer lifts the head and begins a chant.
+> Node22 Use your shield
+> Node23 Run
+
+#Node 22
+Node22
+Fire...
+The necromancer completes his chant as your shield raises. A bolt of fire shoots from the eyes of the head and strikes your shield. The fire spreads chaotically, as if controlled by magic. You are engulfed by flames. You loose consciencnous before you hit the groud.
+> Node19 You have died.
+
+#Node 23
+Node23
+You sense imminent danger, and decided to flee. You spot an entrance to a cave only a short distance ahead. Frantically, you dash towards the tunnel all the while dodging bolts of fire from the necromancer. 
+> Node24 Continue fearlessly into the tunnel, where ever it may lead...
+
+#Node 24
+Node24
+Tomb of the Giants
+After running through the entrance, you keep heading through the corridor as the ambient light fades to black. As your eyes adjust to the darkness, the first thing you notice are massive crypts; crypts that house the bones of giants. In the dark you hear heavy breathing and decide to stick close to the wall. As you progress, a dim light glows in the distance. You identify it as another bonfire. 
+:OnExit (define checkpoint ('(Node24)))#Demon20
+> Node5 Rest at the nearby bonfire.
+> Node25 Continue through the tomb
+
+#Node 25
+Node25
+Tomb of the Giants
+You progress deeper and deeper into the tomb. Necromatic statues and alters decorate the walls and floor the further you go. One entrance in particular is decorated heavily with occult like displays. Your curiosity gets the better of you as you move close to examine in. Behind the display is a hole dropping no more than than 20 feet. 
+> Node27 Decend into the hole.
+
+#Node 27
+Node27
+Gravelord Nito, the First of the Dead
+The room you have decended to is cold and smells of death. You see an open crypt accross the room holding a massive cluster of bones. As you feared, but expected, the mass of bones rises from the crypt caring an equally massive greatsword, as tall as you. The creature begins to secrete a black cloud stick close to its body as it marches towards you. The creature stop out of range of you and appears to fall towards the groud.
+> Node28 Attack the creature while it regains its footing
+> Node29 Run for cover
+
+#Node 28
+Node28
+Gravelord Nito, the First of the Dead
+You run full force towards the gravebound behemoth, raising your sword for a mighty blow, worthy of slying a Lord. All of the sudden, the gravelord thrusts upwards. With an explosive force, the black cloud surrounding the Lord expells from its body, filling room. You breath in the toxic miasma.
+> Node19 You have died.
+
+#Node 29
+Node29 
+Gravelord Nito, the First of the Dead
+As you take flight, you hide behind a nearby rock structure as the gravelord erupts from his slumped stance. A black cloud jets from its body to all corners of the room; however, the miasma is so thick it leaves of back of the rock structure open, saving you. You emerge to confront the gravelord. As you near the beast he steps back, almost as if retreating.
+> Node30 Rush the gravelord
+> Node31 Quickly move to the side
+> Node30 Draw your shield and prepare for combat
+
+#Node 30
+Node30
+Gravelord Nito, the First of the Dead
+The gravelord erupts from its stance, this time thrusting  his human sized greatsword towards you. The immense inertia of the blow pierces are armor in its path. You hang from the sword, impaled from your neck to your gut, as the gravelord siphons all remaining humanity.
+> Node19 You have died.
+
+#Node 31
+Node31 
+Gravelord Nito, the First of the Dead
+The gravelord lunges his greatsword at you, but you are able to doge his attack. The gravelord is slow to recoil and you determine now is the time for combat. You rush towards the mass of bones, impaling your sword into it. You drag your sword through its core and out the Lord's side. The bonemass looses structure and falls to the floor.
+> Node32 Retrieve the soul the gravelord left behind.
+
+#Node 32
+Node32
+:OnEntry (define Gravelord ('(True))) #Demon 21
+The Soul of the Gravelord
+At the core of the mass of bones, you see a pale shimmering light. You reach in and grab the mass of light, no larger than your own hand. The soul is cold.
+> Node7 Return to Firelink Shrine
+
+#Node 33
+Node33
+The Elevator
+To the right of the Firlink bonfire, you decend a flight of stairs to arrive at a stone-shaft elevator. You pull the lever and begin to decend with great speed. Upon reaching the bottom, you step out to see the great sunken city of New Londo. You hear a whimper behind you and see a ghost with its arms streaching around you.
+> Node34 Hold up your shield
+> Node35 Charge at the ghost
+
+#Node 34
+Node34
+A Ghost!!
+You raise your shield to the ghost as it pulls its arms back to its body. You feel a quick and sharp pain to the back of your neck. You realize the ghost was wielding daggers as your head falls to the floor.
+> Node19 You have died
+
+#Node 35
+Node35
+A Ghost!!
+As you foolishy charge towards the ghost, you trip and fall at the ghost, hitting your helm off the group. Seeing as you fell through the ghost, attacking it would do no good without a silver weapon. Knowing this, you run towards the city's bridge, hoping to evade all ghosts. 
+> Node36 Travel to the Mouth of the Abyss
+
+#Node 36
+Node36
+The Kings' Fall
+You stop running when you have spotted a deep stairwell. With no better option, you eplore it as it winds down to oblivion. At the end, there is black void. Knowing that this must be the resting place of the concil, you jump in, not knowing what you will find.
+> Node37 The Abyss...
+
+#Node 37
+Node37
+The Four Kings
+You find yourself surounded by nothingness when  white figure fades into the distance. It is no smaller than a finger at first, but moves closer and growing in size. By the time it reaches striking distance, the white king towers above you when you notice a small figure appear in the distance.
+> Node38 Prepare the duel the king
+> Node39 Charge at the king
+
+#Node 38
+Node38
+The Four Kings
+As you begin to face the first king, the second king has arrived by his side. You bravely draw you sword and shield and approach them. However, you are picked up from behind, and strangled by the third king to fade in from behind.
+> Node19 You have died
+
+#Node 39
+Node39
+The Four Kings
+You charge the first king as the second approaches from the side. After an epic burst of swordsmanship, you slay the first figure as the second approaches. While dueling the second, you notice the third and forth approach from behind. 
+> Node40 Take no mind of the other two, and focus on your target
+> Node41 Rush the two kings while they don't expect an attack
+
+#Node 40
+Node40
+The Four Kings
+You continue on your target, slaying the second king as the other two approach. After clever movements, you are able to take down each king one by one.
+> Node42 Claim the Soul of the Four Kings
+
+#Node 41
+Node41
+The Four Kings
+You rush the two unsuspecting kings but they become too much for you. You are quickly overpowered by the two with the one king, still alive, closing in from the rear. You realize your defeat as all kings draw their swords in your direction.
+> Node19 You are dead.
+
+#Node 42
+Node42
+:OnEntry (define FourKings ('(True))) #Demon 27
+The Soul of the Four Kings
+A purple soul arises from the last fallen king. As soon as you lay your hands on it, an eerie feeling settles on you. You feel people whispering in your ear, but can hear nothing. You shortly loose control, drawing your own sword on yourself. With no control over your body, you slide the sword across your throat. The blood drips on into the Abyss.
+> Node19 You are dead
+
+#Node 43
+Node43
+The Temple
+You climb the steps of the temple built into the side of a mountain. At the top, you can see over the city of Anor Londo, home of the Giants and the Gods. A giant sentinel blocks your entrace to the city. The sentry draws his lance for attack.
+> Node44 Counter the attack
+> Node45 Attack the giant's legs
+
+#Node 44
+Node44
+A Giant
+You wait to counter the giant's attack. As he swings hs massive halberd you raise your sword to parry. However, the attack is too strong and knocks you over. While on the ground, the giant lifts his shield and crushes you under it.
+> Node19 You have died.
+
+#Node 45
+Node45
+A Giant
+You notice that the giant ankles have little armor protection, so you go in for the kill. You cut the sentry's ankles and he falls to the ground. After its defeat, you notice a nearby stairwell, and a path leading to the Duke's Achieves overlooking Anor Londo.
+> Node46 You investigate the stairwell (define checkpoint ('(Node45))) (say "A fire keeper greets you as you rest at her fire.") #Demons 28,29
+> Node46 Proceed to the Duke's Archives
+
+#Node 46
+Node46
+Seath the Scaleless
+You walk through the Archive, in awe of the vast amount of books lining the wall. You make your way to the top of the tower to find a lone door. You enter only to see an albino dragon before you. He draws a deep breath.
+> Node47 Block the dragon's attack
+> Node48 Try to find an exit
+
+#Node 47
+Node47
+:OnEntry (define Curse ('(True))) #Demon 35
+Seath the Scaleless
+The dragon pelts you with a magic attack; however, your greatsheild deflects the breath to the floor. All of the sudden, crystals begin to grow from the floor. You try to escape but the crystals cut you at every move. The cuts absorb energy from the crystals and you become Cursed.
+> Node19 You are dead.
+
+#Node48
+Node48
+Seath the Scaleless
+You move out of the dragons way, frantically search for a way out. You realize there is no escape, and this may be the end. For one last moment of heroic glory, you turn to face the dragon.
+> Node49 Attack its leg
+> Node50 Attack its tail
+
+#Node 49
+Node49
+Seath The Scaleless
+You dodge the dragon's swings and bits and arrive at its exposed leg. You proceed to attack it but the gashes the the beasts leg seem to heal immediately. You search for a solution as the dragon lifts his foot and crushes you underneath.
+> Node19 You are dead.
+
+#Node 50
+Node50
+:OnEntry (define Seath ('(True))) #Demon 36
+Seath the Scaleless
+You sprint aroung the dragon, search for its tail when instead you find a single crystal that stand out from all of the rest. You smash the crystal with one clean swing of you sword. As if almost instantaniously, the dragon turns in fear for his life. You run towards it and slice through its hide like water. You reach in and pull out the crystalized soul of Seath.
+> Node7 Return to Firelink
+
+#Node 51
+Node51
+The Cave
+You depart the shrine and head towards the cave the leads to the demonic city of Izalith. You travel for days before reaching the city gates, far underground. The city has been taken by lava and demons.
+> Node52 Enter the city.
+
+#Node 52
+Node52
+Izalith
+:OnEntry (define checkpoint('(Node52))) #Demon 37
+Upon entering the city, a woman dressed in black robes approaches you. She is a daughter of the Witch of Izalith and has asked you to put her mother's spirit to rest. You follow the young witch to the core of the city. After resting at a nearby bonfire, she points you to the lair of her mother's creation.
+> Node53 Face the Witch of Izalith
+
+#Node 53
+Node53
+The Bed of Chaos
+The witch is hiden deep within the thicket of a tree turned red from demonic chaos. To the left and right of the central trunk are two black chains tethering it down.
+> Node54 Travel right :if (not (have ('(RightChain)))) #Demon 38
+> Node55 Travel left :if (not (have ('(LeftChain)))) #Demon 39
+> Node56 Travel through the middle :if (and (have ('(RightChain))) (have ('(LeftChain)))) #Demon 40
+
+#Node 54
+Node54
+:OnEntry (define RightChain ('(True))) #Demon 40
+The Bed of Chaos
+You run aroung the right of the tree, dodgeing fire and branches. You lash out and cut the chain tethering the right side of the try. Just as you turn around, and explosion from behind immolates you.
+> Node19 You are dead.
+
+#Node 55
+Node55
+:OnEntry (define LeftChain ('(True))) #Demon 41 
+The Bed of Chaos
+You run aroung the left of the tree, dodgeing fire and branches. You lash out and cut the chain tethering the left side of the try. Just as you turn around, and explosion from behind immolates you.
+> Node19 You are dead.
+
+#Node 56
+Node56
+:OnEntry (define Witch ('(True))) #Demon 42
+The Bed of Chaos
+You rush through the central thicket. With both cains cut, you are able to fight your way through, eventually arriving at the Witch of Izalith. Her form is corrupt and mangled by the demonic energies that flow through the city. With one clean strike, you end the witch'es suffering and claim her chaotic soul for yourself.
+> Node7 Return to Firelink Shrine.
+
+#Node 57
+Node57
+The Wall
+:When (and (and (and have('(Gravelord)) have('(FourKings))) have('(Seath))) have('(Witch))) #Demon 44
+In the presense of all four Lord souls, the wall begins to glow. After a short time, it is revealed that the wall was false, and opened into a staircase.
+> Node58 Continue to the Kiln
+:OnExit delete Gravelord #Demon 45
+:OnExit delete FourKings #Demon 46
+:OnExit delete Seath #Demon 47
+:OnExit delete Witch #Demon 48
+:OnExit add LordSoul #Demon 49
+
+#Node 58
+Node58
+Kiln of the First Flame
+You arrive at the Kiln of the First Flame; the burning place of the flame that keeps the age of light active in Lordran. However, you have a choice. Kindle the flame with the power of the Lord Soul to delay the undead for another cycle? Or sunder the Lord Soul in an attempt to usher in the age of man?
+> Node59 Kindle the flame...
+> Node60 Sunder the Lord Soul...
+
+#Node 59
+Node59
+The Age of Fire
+You pull out the Lord Soul and allow its power to flow through your body. You raise your arm to the fire and offer it your soul. The fire engulfs you, using you as a fire source. You have extended the Age of Fire; but how long until the flame fades again?
+:OnExit delete LordSoul #Demon 50
+> Exit
+
+#Node 60
+Node60
+The Age of Man
+You pull out the Lord Soul. By your own power you sunder the soul, ripping it through its core. The soul explodes, scattering and leaving the Kiln. The Lord Soul has been broken feed all of man; however, how will their power take root?
+:OnExit delete LordSoul #Demon 51
+> Exit
